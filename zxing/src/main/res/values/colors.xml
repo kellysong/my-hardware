@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--zxing-->
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="viewfinder_frame">#03A9F4</color>
+    <color name="viewfinder_laser">#FF03A9F4</color>
+    <color name="viewfinder_laser_transparent">#0003A9F4</color>
+</resources>

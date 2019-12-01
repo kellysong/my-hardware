@@ -1,0 +1,5 @@
+include ':app', ':nfcard', ':zxing'
+
+include ':my-common-lib'
+project (':my-common-lib').projectDir = new File('D:/workspace_android/my-lib/my-common-lib/')
+include ':my-common-lib:my-base-adapter-lib'
