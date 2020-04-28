@@ -36,7 +36,7 @@ public class QRCodeFactory {
      * @throws WriterException
      */
     public static Bitmap createQRCode(String url, int widthAndHeight)
-            throws WriterException {
+            throws Exception {
         Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);//容错率越高,二维码的有效像素点就越多
