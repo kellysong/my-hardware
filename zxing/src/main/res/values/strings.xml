@@ -1,1 +1,12 @@
-<resources></resources>
+<resources>
+    <string name="title_scan">扫一扫</string>
+    <string name="scan_hint">将二维码/条码放入框内，即可自动扫描</string>
+    <string name="scan_album">相册</string>
+    <string name="scan_open_light">开灯</string>
+    <string name="scan_close_light">关灯</string>
+    <string name="scan_none">未发现二维码/条形码</string>
+    <string name="scan_sure">确定</string>
+    <string name="scan_title_hint">提示</string>
+    <string name="scan_camera_error">相机打开出错，请稍后重试</string>
+    <string name="scan_permission_hint">权限申请失败</string>
+</resources>

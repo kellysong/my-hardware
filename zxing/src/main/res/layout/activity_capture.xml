@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="扫一扫"
+                android:text="@string/title_scan"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"/>
         </RelativeLayout>
@@ -56,8 +56,8 @@
 
                 <RelativeLayout
                     android:id="@+id/capture_crop_view"
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
+                    android:layout_width="230dp"
+                    android:layout_height="230dp"
                     android:layout_below="@id/iv_shadow_top"
                     android:layout_centerHorizontal="true">
 
@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="20dp"
-                        android:text="将二维码/条码放入框内，即可自动扫描"
+                        android:text="@string/scan_hint"
                         android:textColor="@android:color/white"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -164,11 +164,12 @@
                 android:src="@drawable/ic_scan_album"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_marginTop="5dp"
-                android:text="相册"
+                android:text="@string/scan_album"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"/>
         </LinearLayout>
@@ -192,11 +193,12 @@
 
             <TextView
                 android:id="@+id/tv_light"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_marginTop="5dp"
-                android:text="开灯"
+                android:text="@string/scan_open_light"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"/>
         </LinearLayout>

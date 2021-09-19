@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_scan">Scan</string>
+    <string name="scan_hint">Scan QR code/barcode</string>
+    <string name="scan_album">Album</string>
+    <string name="scan_open_light">Turn light on</string>
+    <string name="scan_close_light">Turn light off</string>
+    <string name="scan_none">No QR code/barcode found</string>
+    <string name="scan_sure">Confirm</string>
+    <string name="scan_title_hint">Prompt</string>
+    <string name="scan_camera_error">Error opening camera, please try again later</string>
+    <string name="scan_permission_hint">Permission apply failed</string>
+</resources>

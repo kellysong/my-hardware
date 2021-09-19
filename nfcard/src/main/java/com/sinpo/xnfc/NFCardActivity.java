@@ -58,7 +58,7 @@ import org.xml.sax.XMLReader;
 /**
  * 设置系统调度 -> 系统调用onNewIntent(Intent intent) -> 获取Tag -> 获取读写通道 -> 进行读写 -> 最后取消系统调度
  */
-public final class NFCardActivity extends Activity implements OnClickListener,
+public class NFCardActivity extends Activity implements OnClickListener,
         Html.ImageGetter, Html.TagHandler {
     private static final String TAG = "SIMPLE_LOGGER";
     private NfcAdapter nfcAdapter; //NFC适配器
@@ -228,7 +228,7 @@ public final class NFCardActivity extends Activity implements OnClickListener,
         } else if (i == R.id.iv_back) {
             //如果是点击消息(或者nfc感应)跳转进来的，且（该运行的进程里没有该应用进程 或 应用首页的Activity不存在任务栈里面）
             try {
-                Class<?> clz = Class.forName("com.sjl.swimchat.ui.activity.MainActivity");
+                Class<?> clz = getLaunchMainClass();
                 boolean proessRunning = ServiceHelper.isProessRunning(getApplicationContext(), this.getPackageName());
                 boolean exsitMianActivity = ServiceHelper.isExsitMianActivity(this, clz);
                 if (isActivityOpen == 0 && (!proessRunning || !exsitMianActivity)) {
@@ -240,10 +240,14 @@ public final class NFCardActivity extends Activity implements OnClickListener,
                 } else {
                     finish();
                 }
-            } catch (ClassNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    protected Class<?> getLaunchMainClass() {
+        return null;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

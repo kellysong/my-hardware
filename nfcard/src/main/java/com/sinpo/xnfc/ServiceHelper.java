@@ -99,6 +99,9 @@ public class ServiceHelper {
      * @return
      */
     public static boolean isExsitMianActivity(Context context, Class<?> cls) {
+        if (cls == null){
+            return false;
+        }
         Intent intent = new Intent(context, cls);
         ComponentName cmpName = intent.resolveActivity(context
                 .getPackageManager());

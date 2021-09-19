@@ -22,9 +22,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -125,10 +127,10 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    tvLight.setText("关灯");
+                    tvLight.setText(getString(R.string.scan_close_light));
                     openFlashlight();
                 } else {
-                    tvLight.setText("开灯");
+                    tvLight.setText(getString(R.string.scan_open_light));
                     closeFlashlight();
                 }
             }
@@ -322,9 +324,9 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
     private void displayFrameworkBugMessageAndExit() {
         // camera error
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示");
-        builder.setMessage("相机打开出错，请稍后重试");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.scan_title_hint);
+        builder.setMessage(R.string.scan_camera_error);
+        builder.setPositiveButton(R.string.scan_sure, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -460,7 +462,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openAlbum();
                 } else {
-                    Toast.makeText(context, "权限申请失败", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.scan_permission_hint, Toast.LENGTH_LONG).show();
                 }
             default:
                 break;
@@ -488,7 +490,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
             String path = getPath(context, uri);
             Result result = scanningImage(path);
             if (result == null) {
-                Toast.makeText(context, "未发现二维码/条形码", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.scan_none, Toast.LENGTH_LONG).show();
             } else {
                 handleDecode(result);
             }
@@ -500,7 +502,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
             String path = getPath(context, uri);
             Result result = scanningImage(path);
             if (result == null) {
-                Toast.makeText(context, "未发现二维码/条形码", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.scan_none, Toast.LENGTH_LONG).show();
             } else {
                 handleDecode(result);
             }

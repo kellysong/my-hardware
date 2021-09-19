@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sinpo.xnfc">
     <application>
-        <activity
+        <!--<activity
             android:name="NFCardActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
@@ -20,7 +20,7 @@
                 <action android:name="android.nfc.action.TAG_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity>-->
     </application>
 
     <uses-permission android:name="android.permission.NFC" />
