@@ -24,6 +24,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -66,7 +67,7 @@ import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.Hashtable;
 
-public class CaptureActivity extends Activity implements SurfaceHolder.Callback {
+public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.Callback {
     private Context context;
     private Activity activity;
     private static final String TAG = CaptureActivity.class.getSimpleName();

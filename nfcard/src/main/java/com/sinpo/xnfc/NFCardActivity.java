@@ -55,10 +55,13 @@ import com.sinpo.xnfc.card.CardManager;
 
 import org.xml.sax.XMLReader;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+
 /**
  * 设置系统调度 -> 系统调用onNewIntent(Intent intent) -> 获取Tag -> 获取读写通道 -> 进行读写 -> 最后取消系统调度
  */
-public class NFCardActivity extends Activity implements OnClickListener,
+public class NFCardActivity extends AppCompatActivity implements OnClickListener,
         Html.ImageGetter, Html.TagHandler {
     private static final String TAG = "SIMPLE_LOGGER";
     private NfcAdapter nfcAdapter; //NFC适配器
