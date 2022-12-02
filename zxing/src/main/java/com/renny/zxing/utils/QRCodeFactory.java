@@ -2,6 +2,11 @@ package com.renny.zxing.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -39,7 +44,8 @@ public class QRCodeFactory {
             throws Exception {
         Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
         hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);//容错率越高,二维码的有效像素点就越多
+        //容错率越高,二维码的有效像素点就越多
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
         hints.put(EncodeHintType.MARGIN, 2);
 
 
@@ -75,9 +81,6 @@ public class QRCodeFactory {
      */
     public static Bitmap createQRImage(String content, int heightPix, Bitmap logoBm) {
         try {
-            // if (content == null || "".equals(content)) {
-            // return false;
-            // }
 
             //配置参数
             Map<EncodeHintType, Object> hints = new HashMap<>();
@@ -85,7 +88,7 @@ public class QRCodeFactory {
             //容错级别
             hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
             //设置空白边距的宽度
-            // hints.put(EncodeHintType.MARGIN, 2); //default is 4
+             hints.put(EncodeHintType.MARGIN, 2); //default is 4
 
             // 图像数据转换，使用了矩阵转换
             BitMatrix bitMatrix = new QRCodeWriter().encode(content, BarcodeFormat.QR_CODE, heightPix, heightPix, hints);
@@ -164,5 +167,144 @@ public class QRCodeFactory {
 
         return bitmap;
     }
+
+
+    /**
+     * 生成条形码（自适应）
+     *
+     * @param contents      需要生成的内容
+     * @param widthPix  生成条形码的宽度
+     * @param heightPix 生成条形码的高度
+     * @param displayCode   是否在条形码下方显示内容
+     * @return
+     */
+    public static Bitmap createBarcode(String contents,int widthPix, int heightPix, boolean displayCode) {
+        Bitmap ruseltBitmap;
+        /**
+         * 条形码的编码类型
+         */
+        BarcodeFormat barcodeFormat = BarcodeFormat.CODE_128;
+
+
+        if (displayCode) {
+            Bitmap barcodeBitmap = encodeAsBitmap(contents, barcodeFormat,
+                    widthPix, heightPix);
+            ruseltBitmap = mixtureBitmapAndText(contents,barcodeBitmap,widthPix,heightPix, new PointF(0, 8));
+        } else {
+            ruseltBitmap = encodeAsBitmap(contents, barcodeFormat,
+                    widthPix, heightPix);
+        }
+
+        return ruseltBitmap;
+    }
+
+
+    /**
+     * 生成条形码的Bitmap
+     *
+     * @param contents      需要生成的内容
+     * @param format        编码格式
+     * @param widthPix
+     * @param heightPix
+     * @return
+     * @throws WriterException
+     */
+    private static Bitmap encodeAsBitmap(String contents,
+                                           BarcodeFormat format, int widthPix, int heightPix) {
+        final int WHITE = 0xFFFFFFFF;
+        final int BLACK = 0xFF000000;
+
+        MultiFormatWriter writer = new MultiFormatWriter();
+        BitMatrix result = null;
+        try {
+            result = writer.encode(contents, format, widthPix,
+                    heightPix, null);
+            result = deleteWhite(result);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        int width = result.getWidth();
+        int height = result.getHeight();
+        int[] pixels = new int[width * height];
+        // All are 0, or black, by default
+        for (int y = 0; y < height; y++) {
+            int offset = y * width;
+            for (int x = 0; x < width; x++) {
+                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+            }
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height,
+                Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bitmap;
+    }
+
+    /**
+     * 删除白边
+     */
+    private static BitMatrix deleteWhite(BitMatrix matrix) {
+        int[] rec = matrix.getEnclosingRectangle();
+        int resWidth = rec[2];
+        int resHeight = rec[3];
+
+        BitMatrix resMatrix = new BitMatrix(resWidth, resHeight);
+        resMatrix.clear();
+        for (int i = 0; i < resWidth; i++) {
+            for (int j = 0; j < resHeight; j++) {
+                if (matrix.get(i + rec[0], j + rec[1]))
+                    resMatrix.set(i, j);
+            }
+        }
+        return resMatrix;
+    }
+
+
+    /**
+     *
+     * 合并条码和条码内容
+     * @param contents
+     * @param barcodeBitmap
+     * @param widthPix
+     * @param heightPix
+     * @param fromPoint
+     * @return
+     */
+    private static Bitmap mixtureBitmapAndText(String contents, Bitmap barcodeBitmap,int widthPix, int heightPix,
+                                           PointF fromPoint) {
+
+        Rect rect = new Rect();
+        Paint textPaint = new Paint();
+        textPaint.setTextSize(30);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setFilterBitmap(true);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.getTextBounds(contents, 0, contents.length(), rect);
+        //文本的宽、高度
+        int textWidth = rect.width();
+        int textHeight = rect.height();
+        int width = Math.max(widthPix, textWidth);
+        int height = (int) (heightPix + fromPoint.y + textHeight);
+        Bitmap newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(newBitmap);
+        canvas.drawBitmap(barcodeBitmap, (widthPix-barcodeBitmap.getWidth())/2, 0, null);
+        canvas.translate(0, heightPix);
+        Paint bgPaint = new Paint();
+        bgPaint.setColor(Color.WHITE);
+        RectF rectF = new RectF(0, 0, width, textHeight);
+        canvas.drawRect(rectF, bgPaint);
+
+        Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
+        float distance = (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom;
+        float baseline = rectF.centerY() + distance + fromPoint.y;
+        canvas.drawText(contents, rectF.centerX(), baseline, textPaint);
+
+        canvas.save();
+        canvas.restore();
+
+        return newBitmap;
+    }
+
 
 }

@@ -24,5 +24,31 @@
             android:layout_height="wrap_content"
             android:onClick="btnZxingScan"
             android:text="zxing扫码" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnCodeCreate"
+            android:text="二维码生成和条码生成" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_qr_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             />
+        <ImageView
+            android:id="@+id/iv_qr_code2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <ImageView
+            android:id="@+id/iv_bar_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 </LinearLayout>

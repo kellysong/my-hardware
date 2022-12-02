@@ -41,7 +41,7 @@ def needDifferentiate() {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation rootProject.ext.dependencies["androidxAppcompat"]
+    implementation rootProject.ext.dependencies["appcompat"]
 //    implementation project(':my-common-lib:my-base-adapter-lib')
 
 }
