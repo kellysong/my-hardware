@@ -43,7 +43,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation rootProject.ext.dependencies["appcompat"]
 //    implementation project(':my-common-lib:my-base-adapter-lib')
-
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
 
 apply from: './nexus-push-nfccard.gradle'

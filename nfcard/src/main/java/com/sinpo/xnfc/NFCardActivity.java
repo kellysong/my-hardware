@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -49,6 +50,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.sinpo.xnfc.adapter.CardListAdapter;
 import com.sinpo.xnfc.bean.CardInfo;
 import com.sinpo.xnfc.card.CardManager;
@@ -57,6 +59,9 @@ import org.xml.sax.XMLReader;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 设置系统调度 -> 系统调用onNewIntent(Intent intent) -> 获取Tag -> 获取读写通道 -> 进行读写 -> 最后取消系统调度
@@ -118,6 +123,8 @@ public class NFCardActivity extends AppCompatActivity implements OnClickListener
             iv_title.setText(extras.getString("title", "普卡余额查询"));
             Log.i(TAG, "nfcColor:" + nfcColor + ",isActivityOpen:" + isActivityOpen);
         }
+        CardInfo cardInfo = getCardInfo(this);
+        initCardInfoList(cardInfo);
     }
 
     /**
@@ -305,17 +312,26 @@ public class NFCardActivity extends AppCompatActivity implements OnClickListener
         }
         CardInfo cardInfo = CardManager.getCardInfo();
 
+        initCardInfoList(cardInfo);
+
+        defaultBg.setVisibility(View.GONE);
+        sv_context.setVisibility(View.VISIBLE);
+//		board.setText(Html.fromHtml(data));
+
+        cardData = Html.fromHtml(data);
+        saveCardInfo(this,cardInfo);
+    }
+
+    private void initCardInfoList(CardInfo cardInfo) {
+        if (cardInfo == null){
+            return;
+        }
         Log.i(TAG, cardInfo.toString());
         cardName.setText(cardInfo.getCardName());
         cardNo.setText("卡号:" + cardInfo.getCardNo());
         cardBalance.setText(Html.fromHtml("余额:<font color='red'>" + cardInfo.getCardBalance() + "</font>"));
         CardListAdapter cardListAdapter = new CardListAdapter(this, R.layout.item_card_list, cardInfo.getConsumeRecords());
         listView.setAdapter(cardListAdapter);
-
-        defaultBg.setVisibility(View.GONE);
-        sv_context.setVisibility(View.VISIBLE);
-//		board.setText(Html.fromHtml(data));
-        cardData = Html.fromHtml(data);
     }
 
     private void showHelp(int id) {
@@ -377,4 +393,22 @@ public class NFCardActivity extends AppCompatActivity implements OnClickListener
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    public static void saveCardInfo(Context context, CardInfo data) {
+        SharedPreferences sp = context.getSharedPreferences("nfc_card", Context.MODE_PRIVATE);//数据自己可用
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("recentReadData", new Gson().toJson(data));
+        edit.commit();
+    }
+
+    public static CardInfo getCardInfo(Context context) {
+        SharedPreferences sp = context.getSharedPreferences("nfc_card", Context.MODE_PRIVATE);
+        String data = sp.getString("recentReadData", null);
+        if (data == null){
+            return null;
+        }
+        CardInfo cardInfo = new Gson().fromJson(data, CardInfo.class);
+        return cardInfo;
+    }
+
 }
