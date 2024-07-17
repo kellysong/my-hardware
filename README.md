@@ -23,8 +23,8 @@ NFC读卡，zxing扫码库
 
 最新版本：
 
-    implementation 'com.github.kellysong.my-hardware:nfcard:1.1.3'
-    implementation 'com.github.kellysong.my-hardware:zxing:1.1.3'
+    implementation 'com.github.kellysong.my-hardware:nfcard:1.1.4'
+    implementation 'com.github.kellysong.my-hardware:zxing:1.1.4'
 
 ## 使用
 	
