@@ -161,9 +161,14 @@ public class NFCardActivity extends AppCompatActivity implements OnClickListener
         if (nfcAdapter == null) {
             btnNfc.setEnabled(false);
         }
-        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-                getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+                    getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_MUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+                    getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        }
         onNewIntent(getIntent());
     }
 
@@ -260,7 +265,9 @@ public class NFCardActivity extends AppCompatActivity implements OnClickListener
         return null;
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

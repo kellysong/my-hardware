@@ -21,10 +21,15 @@ NFC读卡，zxing扫码库
      implementation 'com.github.kellysong.my-hardware:nfcard:1.1.2'
      implementation 'com.github.kellysong.my-hardware:zxing:1.1.2'
 
+### 基于androidx(appcompat 1.4.0)编译(适配Android 14)
+
+    implementation 'com.github.kellysong.my-hardware:nfcard:2.0.0'
+    implementation 'com.github.kellysong.my-hardware:zxing:2.0.0'
+
 最新版本：
 
-    implementation 'com.github.kellysong.my-hardware:nfcard:1.1.3'
-    implementation 'com.github.kellysong.my-hardware:zxing:1.1.3'
+    implementation 'com.github.kellysong.my-hardware:nfcard:2.0.0'
+    implementation 'com.github.kellysong.my-hardware:zxing:2.0.0'
 
 ## 使用
 	
