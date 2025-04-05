@@ -321,8 +321,6 @@ public class NFCardActivity extends AppCompatActivity implements OnClickListener
 
         initCardInfoList(cardInfo);
 
-        defaultBg.setVisibility(View.GONE);
-        sv_context.setVisibility(View.VISIBLE);
 //		board.setText(Html.fromHtml(data));
 
         cardData = Html.fromHtml(data);
@@ -333,10 +331,13 @@ public class NFCardActivity extends AppCompatActivity implements OnClickListener
         if (cardInfo == null){
             return;
         }
+
+        defaultBg.setVisibility(View.GONE);
+        sv_context.setVisibility(View.VISIBLE);
         Log.i(TAG, cardInfo.toString());
         cardName.setText(cardInfo.getCardName());
-        cardNo.setText("卡号:" + cardInfo.getCardNo());
-        cardBalance.setText(Html.fromHtml("余额:<font color='red'>" + cardInfo.getCardBalance() + "</font>"));
+        cardNo.setText(getString(R.string.lab_serl) + cardInfo.getCardNo());
+        cardBalance.setText(Html.fromHtml(getString(R.string.lab_balance)+"<font color='red'>" + cardInfo.getCardBalance() + "</font>"));
         CardListAdapter cardListAdapter = new CardListAdapter(this, R.layout.item_card_list, cardInfo.getConsumeRecords());
         listView.setAdapter(cardListAdapter);
     }
